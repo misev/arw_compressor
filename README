@@ -23,8 +23,9 @@ To recover your original .ARW file:
 
 LICENSE
 
-GPLv3 or later. Includes modified code of dcraw (see header of dcraw.c
-for details).
+For *.sh and arw_encode.c: choose one of: 1. GPLv3 or later or 2. Apache 2.0,
+whichever fits best. However, this project includes modified code of dcraw,
+so check the header of dcraw.c for details on that one.
 
 TECHNICAL INFO
 
