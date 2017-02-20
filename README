@@ -4,7 +4,7 @@ INSTALLATION
 
 First, compile the C stuff:
  $ gcc -o arw_encode arw_encode.c
- $ gcc -o dcraw_hack -lm dcraw.c
+ $ gcc -o dcraw_hack dcraw.c -lm
 
 Then, ensure that you have flif (http://flif.info/) and the binaries above
 in your $PATH. You'll also need ImageMagick's convert, as well as some
