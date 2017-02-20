@@ -2778,7 +2778,7 @@ void CLASS sony_arw2_load_raw()
 			alarm = 1;
 	  }
 	  if(alarm) {
-		  fprintf(stderr, "ALARM: %08x%02x\n", chunk_cnt, (imin << 4) | imax);
+		  fprintf(stderr, "ALARM: %08lx%02x\n", chunk_cnt, (imin << 4) | imax);
 	  }
       col -= odd ? 1:31;
 	  if(odd) {
@@ -9871,7 +9871,7 @@ int CLASS dcraw_main(char *raw_file)
 		fprintf(stderr, "not a sony ARW\n");
 		goto cleanup;
 	}
-	fprintf(stderr, "IDENT: data_at=%u, size=%ux%u, half=%ux%u\n", data_offset, raw_width, raw_height, raw_width >> 1, raw_height >> 1);
+	fprintf(stderr, "IDENT: data_at=%lu, size=%ux%u, half=%ux%u\n", data_offset, raw_width, raw_height, raw_width >> 1, raw_height >> 1);
     (*load_raw)();
 cleanup:
     if (meta_data) free (meta_data);
