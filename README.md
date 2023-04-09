@@ -1,16 +1,16 @@
 These tools can losslessly compress and decompress a Sony ARW (RAW) image file.
 
-INSTALLATION
+# INSTALLATION
 
-First, compile the C stuff:
- $ gcc -O3 -march=native -o arw_encode arw_encode.c
- $ gcc -O3 -march=native -o dcraw_hack dcraw.c -lm
+First, compile the binaries:
 
-Then, ensure that you have JPEG XL (https://jpeg.org/jpegxl/) and the binaries above
-in your $PATH. You'll also need ImageMagick's convert, as well as some
+    make
+
+Then, ensure that you have [JPEG XL](https://jpeg.org/jpegxl/) and the binaries
+above in your $PATH. You'll also need ImageMagick's convert, as well as some
 standard tools like sha256sum and tar (see *.sh for details).
 
-USAGE
+# USAGE
 
 To compress, use
  $ arw_compress.sh filename.ARW
@@ -21,13 +21,13 @@ of the .ARW file.
 To recover your original .ARW file:
  $ arw_decompress.sh filename.ARW.jxlraw
 
-LICENSE
+# LICENSE
 
 For *.sh and arw_encode.c: choose one of: 1. GPLv3 or later or 2. Apache 2.0,
 whichever fits best. However, this project includes modified code of dcraw,
 so check the header of dcraw.c for details on that one.
 
-TECHNICAL INFO
+# TECHNICAL INFO
 
 These tools create a .tar.xz file which contains the ARW header (which
 usually includes a lossy JPG preview - this is untouched), a JPEG XL-compressed
