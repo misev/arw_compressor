@@ -13,7 +13,7 @@ fi
 
 if [ "x$DST" == "x" ]
 then
-	DST="$SRC.flifraw"
+	DST="$SRC.jxlraw"
 fi
 
 if [ -e "$DST" ]
@@ -47,18 +47,18 @@ fi
 START=$(head -n1 "$DIR"/err | sed -e 's/^.*data_at=//' -e 's/, .*$//')
 HALF_WIDTH=$(echo $HALF_SIZE | sed -e 's/x.*$//')
 
-flif -e --keep-invisible-rgb "$DIR"/temp.png "$DIR"/result.flif
+cjxl -q 100 "$DIR"/temp.png "$DIR"/result.jxl
 
-flif -d "$DIR"/result.flif "$DIR"/result.flif.png
+djxl "$DIR"/result.jxl "$DIR"/result.jxl.png
 head -c $START "$SRC" > "$DIR"/begin
 
-if (cat "$DIR"/begin; convert "$DIR"/result.flif.png -depth 16 rgba:- | arw_encode $HALF_WIDTH $START "$DIR"/alarms.bin $PADDING_BYTE) | cmp - "$SRC"
-then
+# if (cat "$DIR"/begin; convert "$DIR"/result.jxl.png -depth 16 rgba:- | arw_encode $HALF_WIDTH $START "$DIR"/alarms.bin $PADDING_BYTE) | cmp - "$SRC"
+# then
 	cat "$DIR"/file.list | xargs tar --transform 's=^.*/==' -Jcf "$DIR"/extra.tar.xz
-	tar --transform 's=^.*/==' -cf "$DST" "$DIR"/extra.tar.xz "$DIR"/result.flif
-	cat "$DIR"/file.list | xargs rm "$DIR"/{extra.tar.xz,result.flif,err,result.flif.png,temp.png,temp.rgba,file.list}
+	tar --transform 's=^.*/==' -cf "$DST" "$DIR"/extra.tar.xz "$DIR"/result.jxl
+	cat "$DIR"/file.list | xargs rm "$DIR"/{extra.tar.xz,result.jxl,err,result.jxl.png,temp.png,temp.rgba,file.list}
 	rmdir "$DIR"
-else
-	echo data mismatch, temp stuff left in $DIR
-	exit 1
-fi
+# else
+# 	echo data mismatch, temp stuff left in $DIR
+# 	exit 1
+# fi

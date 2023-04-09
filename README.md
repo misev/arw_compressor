@@ -3,10 +3,10 @@ These tools can losslessly compress and decompress a Sony ARW (RAW) image file.
 INSTALLATION
 
 First, compile the C stuff:
- $ gcc -o arw_encode arw_encode.c
- $ gcc -o dcraw_hack dcraw.c -lm
+ $ gcc -O3 -march=native -o arw_encode arw_encode.c
+ $ gcc -O3 -march=native -o dcraw_hack dcraw.c -lm
 
-Then, ensure that you have flif (http://flif.info/) and the binaries above
+Then, ensure that you have JPEG XL (https://jpeg.org/jpegxl/) and the binaries above
 in your $PATH. You'll also need ImageMagick's convert, as well as some
 standard tools like sha256sum and tar (see *.sh for details).
 
@@ -15,11 +15,11 @@ USAGE
 To compress, use
  $ arw_compress.sh filename.ARW
 
-This should create a filename.ARW.flifraw that's generally 50-75% the size
+This should create a filename.ARW.jxlraw that's generally 50-75% the size
 of the .ARW file.
 
 To recover your original .ARW file:
- $ arw_decompress.sh filename.ARW.flifraw
+ $ arw_decompress.sh filename.ARW.jxlraw
 
 LICENSE
 
@@ -30,7 +30,7 @@ so check the header of dcraw.c for details on that one.
 TECHNICAL INFO
 
 These tools create a .tar.xz file which contains the ARW header (which
-usually includes a lossy JPG preview - this is untouched), a flif-compressed
+usually includes a lossy JPG preview - this is untouched), a JPEG XL-compressed
 image of the raw sensor data (in 16 bits per channel), and a list of "alarms",
 ie. some sony-specific fixup data that allows us to recreate the original ARW
 perfectly.

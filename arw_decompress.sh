@@ -13,7 +13,7 @@ fi
 
 if [ "x$DST" == "x" ]
 then
-	DST=$(echo "$SRC" | sed -e 's/\.flifraw$//')
+	DST=$(echo "$SRC" | sed -e 's/\.jxlraw$//')
 fi
 
 if [ -e "$DST" ]
@@ -27,7 +27,7 @@ DIR=$(mktemp -d "$DST.XXXXXX")
 tar -C "$DIR" -xf "$SRC"
 tar -C "$DIR" -Jxf "$DIR"/extra.tar.xz
 START=$(stat -c '%s' "$DIR"/begin)
-HALF_WIDTH=$(flif -i "$DIR"/result.flif | sed -e 's/^.*FLIF image, \([0-9]*\)x.*$/\1/')
+HALF_WIDTH=$(jxlinfo "$DIR"/result.jxl | grep 'JPEG XL image' | sed -e 's/^JPEG XL image, \([0-9]*\)x.*$/\1/')
 PADDING=00
 if [ -e "$DIR"/padding ]
 then
@@ -35,12 +35,12 @@ then
 	rm "$DIR"/padding
 fi
 
-flif -d "$DIR"/result.flif "$DIR"/result.flif.png
-(cat "$DIR"/begin; convert "$DIR"/result.flif.png -depth 16 rgba:- | arw_encode $HALF_WIDTH $START "$DIR"/alarms.bin $PADDING) > "$DST"
+djxl "$DIR"/result.jxl "$DIR"/result.jxl.png
+(cat "$DIR"/begin; convert "$DIR"/result.jxl.png -depth 16 rgba:- | arw_encode $HALF_WIDTH $START "$DIR"/alarms.bin $PADDING) > "$DST"
 if ! sha256sum --quiet -c "$DIR"/orig.sha256 < "$DST"
 then
 	echo "SHA mismatch, $DST broken, stuff left in $DIR :-("
 	exit 1
 fi
-rm "$DIR"/{extra.tar.xz,result.flif,result.flif.png,begin,orig.sha256,alarms.bin}
+rm "$DIR"/{extra.tar.xz,result.jxl,result.jxl.png,begin,orig.sha256,alarms.bin}
 rmdir "$DIR"
